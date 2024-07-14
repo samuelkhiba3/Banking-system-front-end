@@ -1,6 +1,7 @@
 import{useState,useContext} from "react";
 import {signup} from "../../service/authenticationService";
 import {AuthenticationContext} from "../../contexts/AuthenticationProvider";
+import {UserContext} from "../../contexts/UserProvider";
 
 const SignupForm = () =>{
     const [user, setUser] = useState({
@@ -9,12 +10,14 @@ const SignupForm = () =>{
         email: "",
         password: ""
     });
-    const {setUserCred } = useContext(AuthenticationContext);
+    const {setUserCred} = useContext(UserContext);
+    const {setAuthenticationToken} = useContext(AuthenticationContext);
 
     const fetchUser = async ()=>{
         try {
-            const {id,lastName,firstName,email, role} = await signup(user);
-            setUserCred({id,firstName,lastName,email,role});
+            const {token,userDto} = await signup(user);
+            setUserCred(userDto);
+            setAuthenticationToken(token);
         } catch (error) {
             alert("User already exists in the system");
             console.error(error);

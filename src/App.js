@@ -1,13 +1,15 @@
 import './App.css';
-import SigninForm from "./component/authentication/SigninForm";
 import {AuthenticationProvider} from "./contexts/AuthenticationProvider";
 import SignupForm from "./component/authentication/SignupForm";
+import {UserProvider} from "./contexts/UserProvider";
 
 function App() {
   return (
       <>
           <AuthenticationProvider>
-              <SignupForm />
+              <UserProvider>
+                  <SignupForm />
+              </UserProvider>
           </AuthenticationProvider>
 
       </>

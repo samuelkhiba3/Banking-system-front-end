@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { signin } from "../../service/authenticationService";
 import {AuthenticationContext} from "../../contexts/AuthenticationProvider";
+import {UserContext} from "../../contexts/UserProvider";
 
 const SigninForm = () => {
     const [user, setUser] = useState({
@@ -9,6 +10,7 @@ const SigninForm = () => {
     });
 
     const {setAuthenticationToken} = useContext(AuthenticationContext);
+    const {setUserCred} = useContext(UserContext);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -17,8 +19,9 @@ const SigninForm = () => {
 
     const fetchUser = async () => {
         try {
-            const {jwt} = await signin(user);
-            setAuthenticationToken(jwt);
+            const {token,userDto} = await signin(user);
+            setAuthenticationToken(token);
+            setUserCred(userDto);
         } catch (error) {
             alert("Either password or email is incorrect!")
             console.error(error);
